@@ -1,0 +1,30 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch mobile",
+      "request": "launch",
+      "type": "dart",
+      "program": "mobile_client/lib/main.dart",
+      "args": [
+        "--target",
+        "lib/main.dart",
+        "--web-experimental-hot-reload"
+      ]
+    },
+    {
+      "name": "Launch desktop",
+      "request": "launch",
+      "type": "dart",
+      "program": "desktop_client/lib/main.dart",
+      "args": [
+        "--target",
+        "lib/main.dart",
+        "--web-experimental-hot-reload"
+      ]
+    }
+  ]
+}
