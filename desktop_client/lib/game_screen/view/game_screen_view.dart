@@ -125,12 +125,25 @@ class _PlayerPortraitState extends State<PlayerPortrait> {
           color: Colors.brown,
           child: ListTile(
             tileColor: Colors.brown,
-            leading: Image.asset('assets/images/characters/pringle_guy.GIF'),
+            leading: Image.asset(
+              'assets/images/characters/${PlayerAvatar.values[widget.playerNumber - 1].asset}',
+            ),
             title: Text('000000000'),
-            subtitle: Text('Player 1'),
+            subtitle: Text('Player ${widget.playerNumber}'),
           ),
         ),
       ],
     );
   }
+}
+
+enum PlayerAvatar {
+  pringleGuy('pringle_guy.GIF'),
+  fancyLady('fancy_lady.GIF'),
+  moustachedMan('moustached_man.GIF'),
+  redLady('red_lady.GIF');
+
+  const PlayerAvatar(this.asset);
+
+  final String asset;
 }
