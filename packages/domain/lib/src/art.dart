@@ -7,7 +7,7 @@ class Art {
 
   factory Art.fromJson(Map<String, dynamic> json) {
     return Art(
-      type: ArtType.fromString(json['type'] as String),
+      type: ArtType.fromKey((json['type'] as num).toInt()),
       id: (json['id'] as num).toInt(),
       isReal: json['is_real'] as bool,
     );
@@ -18,21 +18,24 @@ class Art {
   final bool isReal;
 
   Map<String, dynamic> toJson() => {
-    'type': type.name,
+    'type': type.key,
     'id': id,
     'is_real': isReal,
   };
 }
 
 enum ArtType {
-  painting('painting'),
-  sculpture('sculpture');
+  painting('painting', 1),
+  sculpture('sculpture', 2),
+  jewlery('jewlery', 3),
+  jars('jars', 4);
 
-  const ArtType(this.name);
+  const ArtType(this.name, this.key);
 
   final String name;
+  final int key;
 
-  static ArtType fromString(String name) {
-    return ArtType.values.firstWhere((element) => element.name == name);
+  static ArtType fromKey(int key) {
+    return ArtType.values.firstWhere((element) => element.key == key);
   }
 }
