@@ -1,10 +1,15 @@
+import 'package:backend_repository/backend_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'join_game_state.dart';
 
 class JoinGameCubit extends Cubit<JoinGameState> {
-  JoinGameCubit() : super(const JoinGameData());
+  JoinGameCubit({
+    required this.backendRepository,
+  }) : super(const JoinGameData());
+
+  final BackendRepository backendRepository;
 
   void setName(String name) {
     final code = (state as JoinGameData).code;
@@ -17,8 +22,11 @@ class JoinGameCubit extends Cubit<JoinGameState> {
   }
 
   Future<void> joinGame() async {
-    emit(const JoinGameLoading());
-    await Future<void>.delayed(const Duration(seconds: 1));
+    backendRepository.sendEvent(
+      SetNameRequest(
+        name: (state as JoinGameData).name ?? '',
+      ),
+    );
     emit(const JoinGameSuccess());
   }
 }

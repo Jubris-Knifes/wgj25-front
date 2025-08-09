@@ -51,7 +51,7 @@ class CardsRow extends StatelessWidget {
           5,
           (index) => ArtCard(
             art: Art(
-              id: 0,
+              id: 1,
               type: ArtType.painting,
               isReal: index.isEven,
             ),
