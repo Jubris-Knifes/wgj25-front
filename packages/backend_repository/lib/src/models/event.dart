@@ -13,6 +13,8 @@ abstract class Event {
       switch (type) {
         case EventType.playerJoin:
           return PlayerJoinEvent.fromJson(payload ?? {});
+        case EventType.cardsDealt:
+          return CardsDealtEvent.fromJson(payload ?? {});
         default:
           return const Noise();
       }
@@ -36,6 +38,7 @@ class Noise extends Event {
 enum EventType {
   playerJoin('player_joined'),
   setNameRequest('set_name_request'),
+  cardsDealt('cards_dealt'),
   noise('');
 
   const EventType(this.key);

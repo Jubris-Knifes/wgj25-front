@@ -1,13 +1,20 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_client/game_screen/game_screen.dart';
 
 class GameScreenPage extends StatelessWidget {
   const GameScreenPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const GameScreenView();
+    return BlocProvider(
+      create: (context) => CardHandCubit(
+        backendRepository: context.read(),
+      ),
+      child: const GameScreenView(),
+    );
   }
 }
 
@@ -43,21 +50,27 @@ class CardsRow extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
     return Transform.translate(
       offset: Offset(0, size.height * 0.1),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 10,
-        // TODO(juan): Replace with real data
-        children: List.generate(
-          5,
-          (index) => ArtCard(
-            art: Art(
-              id: 1,
-              type: ArtType.painting,
-              isReal: index.isEven,
+      child: BlocSelector<CardHandCubit, CardHandState, List<Art>>(
+        selector: (state) {
+          return state.cards
+              .where((card) => card.id != state.selectedCard?.id)
+              .toList();
+        },
+        builder: (context, cards) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 10,
+            children: List.generate(
+              cards.length,
+              (index) => ArtCard(
+                onTap: () =>
+                    context.read<CardHandCubit>().selectCard(cards[index]),
+                art: cards[index],
+                displayFake: true,
+              ),
             ),
-            displayFake: true,
-          ),
-        ),
+          );
+        },
       ),
     );
   }
