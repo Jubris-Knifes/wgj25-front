@@ -1,4 +1,4 @@
-name: app_ui
+name: domain
 description: A Very Good Project created by Very Good CLI.
 version: 0.1.0+1
 publish_to: none
@@ -6,16 +6,6 @@ resolution: workspace
 
 environment:
   sdk: ^3.8.0
-  flutter: ^3.32.0
-
-dependencies:
-  domain: ^0.1.0
-  flutter:
-    sdk: flutter
 
 dev_dependencies:
   very_good_analysis: ^9.0.0
-
-flutter:
-  assets:
-    - assets/images/art_cards/

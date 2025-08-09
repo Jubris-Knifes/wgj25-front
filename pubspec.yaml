@@ -9,3 +9,4 @@ workspace:
   - mobile_client
   - packages/app_ui
   - packages/backend_repository
+  - packages/domain

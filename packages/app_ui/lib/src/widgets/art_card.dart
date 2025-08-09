@@ -1,16 +1,18 @@
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
-/// {@template art_card}
-/// Widget that displays an art card.
-/// {@endtemplate}
 class ArtCard extends StatelessWidget {
-  /// {@macro art_card}
-  const ArtCard({super.key});
+  const ArtCard({super.key, required this.art});
+
+  final Art art;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Image.asset('assets/images/art_cards/painting_0_R.jpg'),
+      child: Image.asset(
+        'assets/images/art_cards/${art.type.name}_${art.id}_${art.isReal ? 'R' : 'F'}.png',
+        package: 'app_ui',
+      ),
     );
   }
 }
