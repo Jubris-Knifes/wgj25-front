@@ -7,3 +7,5 @@ environment:
 workspace:
   - desktop_client
   - mobile_client
+  - packages/app_ui
+  - packages/backend_repository
