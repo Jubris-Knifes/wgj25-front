@@ -1,8 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:backend_repository/backend_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+
+typedef AppBuilder =
+    FutureOr<Widget> Function({
+      required BackendRepository backendRepository,
+    });
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -20,14 +26,22 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+Future<void> bootstrap(AppBuilder builder) async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
+
+  final backendRepository = BackendRepository(
+    baseUrl: 'wss://b0a22lyu7eze.share.zrok.io',
+  )..initialize();
 
   Bloc.observer = const AppBlocObserver();
 
   // Add cross-flavor configuration here
 
-  runApp(await builder());
+  runApp(
+    await builder(
+      backendRepository: backendRepository,
+    ),
+  );
 }
