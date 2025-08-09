@@ -9,11 +9,12 @@ environment:
 
 dependencies:
   app_ui: ^0.1.0
-  domain: ^0.1.0
   bloc: ^9.0.0
+  domain: ^0.1.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  hydrated_bloc: ^10.1.1
   intl: ^0.20.2
 
 dev_dependencies:
