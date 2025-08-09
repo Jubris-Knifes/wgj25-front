@@ -1,4 +1,4 @@
-import 'package:desktop_client/counter/counter.dart';
+import 'package:desktop_client/game_screen/game_screen.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -13,7 +13,7 @@ class App extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const CounterPage(),
+      home: const GameScreenPage(),
     );
   }
 }
