@@ -20,26 +20,37 @@ class GameScreenView extends StatelessWidget {
       body: Column(
         children: [
           Spacer(),
-          Row(
-            spacing: 10,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Flexible(
-                child: PlayerPortrait(playerNumber: 1, animateSign: true),
-              ),
-              Flexible(
-                child: PlayerPortrait(playerNumber: 2, animateSign: false),
-              ),
-              Flexible(
-                child: PlayerPortrait(playerNumber: 3, animateSign: true),
-              ),
-              Flexible(
-                child: PlayerPortrait(playerNumber: 4, animateSign: true),
-              ),
-            ],
-          ),
+          PlayersRow(),
         ],
       ),
+    );
+  }
+}
+
+class PlayersRow extends StatelessWidget {
+  const PlayersRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      spacing: 10,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Flexible(
+          child: PlayerPortrait(playerNumber: 1, animateSign: true),
+        ),
+        Flexible(
+          child: PlayerPortrait(playerNumber: 2, animateSign: false),
+        ),
+        Flexible(
+          child: PlayerPortrait(playerNumber: 3, animateSign: true),
+        ),
+        Flexible(
+          child: PlayerPortrait(playerNumber: 4, animateSign: true),
+        ),
+      ],
     );
   }
 }
@@ -75,6 +86,16 @@ class _PlayerPortraitState extends State<PlayerPortrait> {
   }
 
   @override
+  void didUpdateWidget(covariant PlayerPortrait oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.animateSign != oldWidget.animateSign) {
+      setState(() {
+        showSign = widget.animateSign;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
@@ -85,9 +106,15 @@ class _PlayerPortraitState extends State<PlayerPortrait> {
           duration: const Duration(seconds: 1),
           curve: Curves.easeInOut,
           onEnd: () {
-            setState(() {
-              showSign = !showSign;
-            });
+            if (widget.animateSign) {
+              setState(() {
+                showSign = !showSign;
+              });
+            } else if (showSign) {
+              setState(() {
+                showSign = false;
+              });
+            }
           },
           child: Image.asset(
             'assets/images/signs/sign_${widget.playerNumber}.PNG',
