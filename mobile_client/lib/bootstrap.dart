@@ -1,9 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter/services.dart';
+import 'package:backend_repository/backend_repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+
+typedef AppBuilder =
+    FutureOr<Widget> Function({
+      required BackendRepository backendRepository,
+    });
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -21,17 +26,17 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+Future<void> bootstrap(AppBuilder builder) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: HydratedStorageDirectory.web,
-  );
+  // await SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.landscapeLeft,
+  //   DeviceOrientation.landscapeRight,
+  // ]);
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
-  ]);
+  final backendRepository = BackendRepository(
+    baseUrl: 'wss://b0a22lyu7eze.share.zrok.io',
+  )..initialize();
 
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
@@ -41,5 +46,9 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   // Add cross-flavor configuration here
 
-  runApp(await builder());
+  runApp(
+    await builder(
+      backendRepository: backendRepository,
+    ),
+  );
 }
