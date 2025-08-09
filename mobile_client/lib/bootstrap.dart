@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:backend_repository/backend_repository.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -29,14 +30,14 @@ class AppBlocObserver extends BlocObserver {
 Future<void> bootstrap(AppBuilder builder) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.landscapeLeft,
-  //   DeviceOrientation.landscapeRight,
-  // ]);
-
   final backendRepository = BackendRepository(
     baseUrl: 'wss://b0a22lyu7eze.share.zrok.io',
   )..initialize();
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
 
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
