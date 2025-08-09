@@ -1,5 +1,4 @@
 import 'package:desktop_client/counter/counter.dart';
-import 'package:desktop_client/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -14,8 +13,6 @@ class App extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
       home: const CounterPage(),
     );
   }
