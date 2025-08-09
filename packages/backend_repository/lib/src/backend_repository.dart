@@ -15,10 +15,13 @@ class BackendRepository {
   late WebSocket _client;
   late StreamController<Event> _eventController;
 
-  void initialize() {
+  Future<void> initialize() async {
     _eventController = StreamController<Event>.broadcast();
 
-    WebSocket.connect('$_baseUrl/ws', headers: {'skip_zrok_interstitial': '1'})
+    await WebSocket.connect(
+          '$_baseUrl/ws',
+          headers: {'skip_zrok_interstitial': '1'},
+        )
         .then((client) {
           _client = client;
           _client.listen(

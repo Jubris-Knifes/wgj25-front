@@ -32,7 +32,9 @@ Future<void> bootstrap(AppBuilder builder) async {
 
   final backendRepository = BackendRepository(
     baseUrl: 'wss://b0a22lyu7eze.share.zrok.io',
-  )..initialize();
+  );
+
+  await backendRepository.initialize();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,

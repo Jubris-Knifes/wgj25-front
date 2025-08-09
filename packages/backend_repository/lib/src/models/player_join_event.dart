@@ -9,7 +9,7 @@ class PlayerJoinEvent extends Event {
   factory PlayerJoinEvent.fromJson(Map<String, dynamic> json) {
     return PlayerJoinEvent(
       name: json['name'] as String,
-      id: (json['id'] as num).toInt(),
+      id: (json['player_id'] as num).toInt(),
     );
   }
 

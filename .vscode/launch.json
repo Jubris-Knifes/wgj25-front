@@ -12,7 +12,6 @@
       "args": [
         "--target",
         "lib/main.dart",
-        "--web-experimental-hot-reload"
       ]
     },
     {
@@ -23,7 +22,6 @@
       "args": [
         "--target",
         "lib/main.dart",
-        "--web-experimental-hot-reload"
       ]
     }
   ]

@@ -1,13 +1,19 @@
-import 'package:app_ui/app_ui.dart';
-import 'package:domain/domain.dart';
+import 'package:desktop_client/app/app.dart';
+import 'package:desktop_client/game_screen/game_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GameScreenPage extends StatelessWidget {
   const GameScreenPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const GameScreenView();
+    return BlocProvider(
+      create: (context) => PlayersCubit(
+        backendRepository: context.read(),
+      )..initialize(),
+      child: const GameScreenView(),
+    );
   }
 }
 
@@ -34,23 +40,38 @@ class PlayersRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      spacing: 10,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Flexible(
-          child: PlayerPortrait(playerNumber: 1, animateSign: true),
-        ),
-        Flexible(
-          child: PlayerPortrait(playerNumber: 2, animateSign: false),
-        ),
-        Flexible(
-          child: PlayerPortrait(playerNumber: 3, animateSign: true),
-        ),
-        Flexible(
-          child: PlayerPortrait(playerNumber: 4, animateSign: true),
-        ),
-      ],
+    return BlocSelector<PlayersCubit, PlayersState, List<Player>>(
+      selector: (state) => state.players,
+      builder: (context, state) {
+        return Row(
+          spacing: 10,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(
+            state.length,
+            (index) => Flexible(
+              child: PlayerPortrait(
+                playerNumber: index + 1,
+                player: state[index],
+                animateSign: true,
+              ),
+            ),
+          ),
+          // [
+          //   Flexible(
+          //     child: PlayerPortrait(playerNumber: 1, animateSign: true),
+          //   ),
+          //   Flexible(
+          //     child: PlayerPortrait(playerNumber: 2, animateSign: false),
+          //   ),
+          //   Flexible(
+          //     child: PlayerPortrait(playerNumber: 3, animateSign: true),
+          //   ),
+          //   Flexible(
+          //     child: PlayerPortrait(playerNumber: 4, animateSign: true),
+          //   ),
+          // ],
+        );
+      },
     );
   }
 }
@@ -60,7 +81,10 @@ class PlayerPortrait extends StatefulWidget {
     super.key,
     required this.playerNumber,
     required this.animateSign,
+    required this.player,
   });
+
+  final Player player;
 
   final int playerNumber;
 
@@ -128,8 +152,8 @@ class _PlayerPortraitState extends State<PlayerPortrait> {
             leading: Image.asset(
               'assets/images/characters/${PlayerAvatar.values[widget.playerNumber - 1].asset}',
             ),
-            title: Text('000000000'),
-            subtitle: Text('Player ${widget.playerNumber}'),
+            title: Text(widget.player.score.toString()),
+            subtitle: Text(widget.player.name),
           ),
         ),
       ],

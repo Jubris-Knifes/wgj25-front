@@ -1,6 +1,12 @@
 part of 'players_cubit.dart';
 
-@immutable
-sealed class PlayersState {}
+class PlayersState extends Equatable {
+  const PlayersState({
+    this.players = const [],
+  });
 
-final class PlayersInitial extends PlayersState {}
+  final List<Player> players;
+
+  @override
+  List<Object?> get props => [players];
+}
