@@ -20,6 +20,11 @@ class GameScreenPage extends StatelessWidget {
             backendRepository: context.read(),
           )..initialize(),
         ),
+        BlocProvider(
+          create: (context) => CardDisplayCubit(
+            backendRepository: context.read(),
+          )..initialize(),
+        ),
       ],
       child: const GameScreenView(),
     );
@@ -32,13 +37,59 @@ class GameScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Column(
+      body: Stack(
+        fit: StackFit.expand,
         children: [
-          Expanded(child: GameMessageBoard()),
-          Spacer(),
-          PlayersRow(),
+          Column(
+            children: [
+              Expanded(child: GameMessageBoard()),
+              Spacer(),
+              PlayersRow(),
+            ],
+          ),
+          Align(
+            child: CardDisplay(),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class CardDisplay extends StatelessWidget {
+  const CardDisplay({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CardDisplayCubit, CardDisplayState>(
+      builder: (context, state) {
+        final playersCubit = context.read<PlayersCubit>();
+        return Row(
+          spacing: 30,
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(
+            state.cards.length,
+            (index) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.4,
+                  child: ArtCard(
+                    art: state.cards[index],
+                  ),
+                ),
+                if (state.playerIds.length > index)
+                  Text(
+                    // ignore: lines_longer_than_80_chars
+                    'Oferta de ${playersCubit.getPlayer(state.playerIds[index]).name}',
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

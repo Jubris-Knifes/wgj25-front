@@ -40,6 +40,43 @@ class CardDisplayCubit extends Cubit<CardDisplayState> {
         await Future<void>.delayed(Duration(milliseconds: event.timeout));
         emit(const CardDisplayState());
       }
+      if (event is MadeOfferEvent) {
+        emit(
+          CardDisplayState(
+            cards: List.generate(
+              event.playerIds.length,
+              (index) => Art(
+                id: index,
+                type: ArtType.backOfCard,
+                isReal: false,
+              ),
+            ),
+            playerIds: event.playerIds,
+          ),
+        );
+      }
+      if (event is OffersFinishedEvent) {
+        emit(
+          CardDisplayState(
+            cards: event.offers.values.toList(),
+            playerIds: event.offers.keys.toList(),
+          ),
+        );
+        await Future<void>.delayed(Duration(milliseconds: event.timeout));
+        emit(
+          CardDisplayState(
+            cards: List.generate(
+              event.offers.length,
+              (index) => Art(
+                id: index,
+                type: ArtType.backOfCard,
+                isReal: false,
+              ),
+            ),
+            playerIds: event.offers.keys.toList(),
+          ),
+        );
+      }
     });
   }
 

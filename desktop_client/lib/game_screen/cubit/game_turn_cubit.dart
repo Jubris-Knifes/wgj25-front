@@ -31,6 +31,9 @@ class GameTurnCubit extends Cubit<GameTurnState> {
           ),
         );
       }
+      if (event is BidSelectedEvent || event is OffersFinishedEvent) {
+        emit(const GameTurnInitial());
+      }
     });
   }
 
