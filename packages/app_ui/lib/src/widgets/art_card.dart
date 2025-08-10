@@ -28,9 +28,16 @@ class ArtCard extends StatelessWidget {
             package: 'app_ui',
           ),
           if (showFake)
-            const Align(
+            Align(
               alignment: Alignment.topRight,
-              child: Icon(Icons.close, color: Colors.red),
+              child: FractionallySizedBox(
+                heightFactor: 0.20,
+                child: Image.asset(
+                  'assets/images/seal.png',
+                  package: 'app_ui',
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
             ),
         ],
       ),

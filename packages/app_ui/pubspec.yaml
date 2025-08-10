@@ -19,3 +19,4 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/art_cards/
+    - assets/images/

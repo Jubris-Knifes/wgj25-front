@@ -1,5 +1,6 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:backend_repository/backend_repository.dart';
+import 'package:desktop_client/app/app.dart';
 import 'package:desktop_client/game_screen/game_screen.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +18,18 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: backendRepository,
-      child: MaterialApp(
-        theme: ThemeData(
-          appBarTheme: AppBarTheme(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      child: BlocProvider(
+        create: (context) => AudioCubit()..playBackgroundMusic(),
+        lazy: false,
+        child: MaterialApp(
+          theme: ThemeData(
+            appBarTheme: AppBarTheme(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            ),
+            useMaterial3: true,
           ),
-          useMaterial3: true,
+          home: const CardsGallery(),
         ),
-        home: const GameScreenPage(),
       ),
     );
   }
@@ -46,6 +51,9 @@ class _CardsGalleryState extends State<CardsGallery> {
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 5,
+          childAspectRatio: 2 / 3,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
         ),
         itemCount: 20,
         itemBuilder: (context, index) {
@@ -56,6 +64,7 @@ class _CardsGalleryState extends State<CardsGallery> {
           );
           return ArtCard(
             art: art,
+            displayFake: true,
           );
         },
       ),
