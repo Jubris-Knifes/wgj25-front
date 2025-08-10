@@ -99,6 +99,7 @@ class GameMessageBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = AppTheme().theme.textTheme;
     return BlocBuilder<GameTurnCubit, GameTurnState>(
       builder: (context, state) {
         switch (state) {
@@ -109,7 +110,10 @@ class GameMessageBoard extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Es hora de que ${player.name} elija una tarjeta!'),
+                Text(
+                  'Es hora de que ${player.name} elija una tarjeta!',
+                  style: textTheme.headlineLarge,
+                ),
                 CountdownBar(timeout: state.timeout),
               ],
             );
@@ -126,6 +130,7 @@ class GameMessageBoard extends StatelessWidget {
                 Text(
                   'Es hora de que ${players.map((e) => e.name).join(', ')} '
                   'hagan una oferta!',
+                  style: textTheme.headlineLarge,
                 ),
                 CountdownBar(timeout: state.timeout),
               ],
@@ -137,14 +142,31 @@ class GameMessageBoard extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Se eligio la oferta de ${player.name}!'),
+                Text(
+                  'Se eligio la oferta de ${player.name}!',
+                  style: textTheme.headlineLarge,
+                ),
               ],
             );
           case GameTurnPrepareForNextTurn():
             final player = context.read<PlayersCubit>().getPlayer(
               state.nextBidder,
             );
-            return Text('${player.name} preparate! Se viene tu turno');
+            return Text(
+              '${player.name} preparate! Se viene tu turno',
+              style: textTheme.headlineLarge,
+            );
+          case GameTurnEndOfRound():
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Se termino la ronda!',
+                  style: textTheme.headlineLarge,
+                ),
+                CountdownBar(timeout: state.timeout),
+              ],
+            );
           default:
             return const SizedBox.shrink();
         }

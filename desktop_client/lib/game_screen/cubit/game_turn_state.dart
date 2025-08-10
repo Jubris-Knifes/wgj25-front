@@ -61,3 +61,14 @@ final class GameTurnPrepareForNextTurn extends GameTurnState {
   @override
   List<Object?> get props => [nextBidder];
 }
+
+final class GameTurnEndOfRound extends GameTurnState {
+  const GameTurnEndOfRound({
+    required this.timeout,
+  });
+
+  final int timeout;
+
+  @override
+  List<Object?> get props => [timeout];
+}

@@ -50,6 +50,13 @@ class GameTurnCubit extends Cubit<GameTurnState> {
           ),
         );
       }
+      if (event is EndOfRoundEvent) {
+        emit(
+          GameTurnEndOfRound(
+            timeout: event.timeout,
+          ),
+        );
+      }
     });
   }
 

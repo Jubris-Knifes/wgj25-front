@@ -2,6 +2,7 @@ export 'bid_selected_event.dart';
 export 'cards_dealt_event.dart';
 export 'choose_bid_event.dart';
 export 'choose_offer_event.dart';
+export 'end_of_round_event.dart';
 export 'event.dart';
 export 'made_offer_event.dart';
 export 'offer_selected_event.dart';
