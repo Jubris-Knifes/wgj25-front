@@ -23,5 +23,19 @@ final class GameTurnChooseBid extends GameTurnState {
   final int playerId;
 
   @override
-  List<Object?> get props => [timeout];
+  List<Object?> get props => [timeout, playerId];
+}
+
+final class GameTurnChooseOffer extends GameTurnState {
+  const GameTurnChooseOffer({
+    required this.timeout,
+    required this.playerIds,
+  });
+
+  final int timeout;
+
+  final List<int> playerIds;
+
+  @override
+  List<Object?> get props => [timeout, playerIds];
 }

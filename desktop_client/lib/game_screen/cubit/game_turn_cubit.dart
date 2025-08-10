@@ -23,6 +23,14 @@ class GameTurnCubit extends Cubit<GameTurnState> {
           GameTurnChooseBid(timeout: event.timeout, playerId: event.playerId),
         );
       }
+      if (event is ChooseOfferEvent) {
+        emit(
+          GameTurnChooseOffer(
+            timeout: event.timeout,
+            playerIds: event.playerIds,
+          ),
+        );
+      }
     });
   }
 

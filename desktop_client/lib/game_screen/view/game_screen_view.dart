@@ -1,3 +1,4 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:desktop_client/game_screen/game_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,16 +59,24 @@ class GameMessageBoard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Es hora de que ${player.name} elija una tarjeta!'),
-                TweenAnimationBuilder<double>(
-                  tween: Tween<double>(begin: 1, end: 0),
-                  duration: Duration(milliseconds: state.timeout),
-                  builder: (context, value, child) {
-                    return LinearProgressIndicator(
-                      minHeight: 20,
-                      value: value,
-                    );
-                  },
+                CountdownBar(timeout: state.timeout),
+              ],
+            );
+          case GameTurnChooseOffer():
+            final players = context
+                .read<PlayersCubit>()
+                .state
+                .players
+                .where((element) => state.playerIds.contains(element.id))
+                .toList();
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Es hora de que ${players.map((e) => e.name).join(', ')} '
+                  'hagan una oferta!',
                 ),
+                CountdownBar(timeout: state.timeout),
               ],
             );
           default:

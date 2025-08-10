@@ -62,16 +62,15 @@ class MessageBoard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('Elige que quieres subastar!'),
-                TweenAnimationBuilder<double>(
-                  tween: Tween<double>(begin: 1, end: 0),
-                  duration: Duration(milliseconds: state.timeout),
-                  builder: (context, value, child) {
-                    return LinearProgressIndicator(
-                      minHeight: 20,
-                      value: value,
-                    );
-                  },
-                ),
+                CountdownBar(timeout: state.timeout),
+              ],
+            );
+          case PlayerTurnChooseOffer():
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Haz una oferta!'),
+                CountdownBar(timeout: state.timeout),
               ],
             );
           default:
@@ -109,9 +108,14 @@ class CardsRow extends StatelessWidget {
                   cards.length,
                   (index) => ArtCard(
                     onTap: () {
-                      if (context.read<PlayerTurnCubit>().state
-                          is PlayerTurnChooseBid) {
+                      final playerTurnState = context
+                          .read<PlayerTurnCubit>()
+                          .state;
+                      if (playerTurnState is PlayerTurnChooseBid) {
                         context.read<CardHandCubit>().selectBid(cards[index]);
+                      }
+                      if (playerTurnState is PlayerTurnChooseOffer) {
+                        context.read<CardHandCubit>().selectOffer(cards[index]);
                       }
                     },
                     art: cards[index],

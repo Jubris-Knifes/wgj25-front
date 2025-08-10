@@ -21,6 +21,10 @@ abstract class Event {
           return BidSelectedEvent.fromJson(payload ?? {});
         case EventType.showBackOfCardBid:
           return ShowBackOfCardBidEvent.fromJson(payload ?? {});
+        case EventType.chooseOffer:
+          return ChooseOfferEvent.fromJson(payload ?? {});
+        case EventType.offerSelected:
+          return OfferSelectedEvent.fromJson(payload ?? {});
         default:
           return const Noise();
       }
@@ -48,12 +52,16 @@ enum EventType {
   chooseBid('choose_bid'),
   bidSelected('bid_selected'),
   showBackOfCardBid('show_back_of_card_bid'),
+  chooseOffer('choose_offer'),
+  offerSelected('offer_selected'),
   noise('');
 
   const EventType(this.key);
 
   final String key;
 
-  static EventType fromKey(String key) =>
-      EventType.values.firstWhere((e) => e.key == key);
+  static EventType fromKey(String key) => EventType.values.firstWhere(
+    (e) => e.key == key,
+    orElse: () => EventType.noise,
+  );
 }

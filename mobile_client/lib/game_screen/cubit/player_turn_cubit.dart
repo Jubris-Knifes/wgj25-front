@@ -23,6 +23,11 @@ class PlayerTurnCubit extends Cubit<PlayerTurnState> {
           PlayerTurnChooseBid(timeout: event.timeout),
         );
       }
+      if (event is ChooseOfferEvent) {
+        emit(
+          PlayerTurnChooseOffer(timeout: event.timeout),
+        );
+      }
     });
   }
 

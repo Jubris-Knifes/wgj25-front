@@ -20,3 +20,14 @@ final class PlayerTurnChooseBid extends PlayerTurnState {
   @override
   List<Object?> get props => [timeout];
 }
+
+final class PlayerTurnChooseOffer extends PlayerTurnState {
+  const PlayerTurnChooseOffer({
+    required this.timeout,
+  });
+
+  final int timeout;
+
+  @override
+  List<Object?> get props => [timeout];
+}

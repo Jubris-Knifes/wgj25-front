@@ -25,10 +25,10 @@ class CardHandCubit extends Cubit<CardHandState> {
         }
       }
       if (event is BidSelectedEvent) {
-        final cards = state.cards
-            .where((card) => card.id != event.card?.id)
-            .toList();
-        emit(CardHandState(cards: cards, selectedCard: event.card));
+        emit(CardHandState(cards: state.cards, selectedCard: event.card));
+      }
+      if (event is OfferSelectedEvent) {
+        emit(CardHandState(cards: state.cards, selectedCard: event.card));
       }
     });
   }
@@ -36,6 +36,14 @@ class CardHandCubit extends Cubit<CardHandState> {
   void selectBid(Art card) {
     backendRepository.sendEvent(
       BidSelectedEvent(
+        card: card,
+      ),
+    );
+  }
+
+  void selectOffer(Art card) {
+    backendRepository.sendEvent(
+      OfferSelectedEvent(
         card: card,
       ),
     );
