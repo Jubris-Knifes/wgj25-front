@@ -23,12 +23,9 @@ class ArtCard extends StatelessWidget {
       onTap: onTap,
       child: Stack(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              'assets/images/art_cards/$fileName.PNG',
-              package: 'app_ui',
-            ),
+          Image.asset(
+            'assets/images/art_cards/$fileName.PNG',
+            package: 'app_ui',
           ),
           if (showFake)
             const Align(
