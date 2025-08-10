@@ -16,19 +16,16 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = AppTheme().theme.textTheme;
+
     return RepositoryProvider.value(
       value: backendRepository,
       child: BlocProvider(
         create: (context) => AudioCubit()..playBackgroundMusic(),
         lazy: false,
         child: MaterialApp(
-          theme: ThemeData(
-            appBarTheme: AppBarTheme(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            ),
-            useMaterial3: true,
-          ),
-          home: const CardsGallery(),
+          theme: AppTheme().theme,
+          home: const GameScreenPage(),
         ),
       ),
     );

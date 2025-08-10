@@ -20,3 +20,13 @@ flutter:
   assets:
     - assets/images/art_cards/
     - assets/images/
+    - assets/fonts/
+
+  
+  fonts:
+    - family: Monofur
+      fonts:
+        - asset: assets/fonts/Monofur.ttf
+    - family: SafiraMarch
+      fonts:
+        - asset: assets/fonts/SafiraMarch.ttf
