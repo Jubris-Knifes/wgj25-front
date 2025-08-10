@@ -63,6 +63,13 @@ class MessageBoard extends StatelessWidget {
               children: [
                 const Text('Elige que quieres subastar!'),
                 CountdownBar(timeout: state.timeout),
+                if (state.canFinishRound)
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<PlayerTurnCubit>().finishRound();
+                    },
+                    child: const Text('Cortar!'),
+                  ),
               ],
             );
           case PlayerTurnChooseOffer():

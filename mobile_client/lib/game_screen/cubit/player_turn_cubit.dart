@@ -20,7 +20,10 @@ class PlayerTurnCubit extends Cubit<PlayerTurnState> {
     _subscription = backendRepository.events.listen((event) {
       if (event is ChooseBidEvent) {
         emit(
-          PlayerTurnChooseBid(timeout: event.timeout),
+          PlayerTurnChooseBid(
+            timeout: event.timeout,
+            canFinishRound: event.canFinishRound,
+          ),
         );
       }
       if (event is ChooseOfferEvent) {
@@ -43,6 +46,15 @@ class PlayerTurnCubit extends Cubit<PlayerTurnState> {
     backendRepository.sendEvent(
       PlayerChooseOfferEvent(
         playerId: choice,
+      ),
+    );
+  }
+
+  void finishRound() {
+    backendRepository.sendEvent(
+      const BidSelectedEvent(
+        card: null,
+        isRoundOver: true,
       ),
     );
   }
