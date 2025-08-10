@@ -39,6 +39,9 @@ class PlayerTurnCubit extends Cubit<PlayerTurnState> {
           ),
         );
       }
+      if (event is PrepareForNextTurnEvent) {
+        emit(const PlayerTurnPrepareForNextTurn());
+      }
     });
   }
 

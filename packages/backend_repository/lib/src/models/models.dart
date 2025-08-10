@@ -8,6 +8,7 @@ export 'offer_selected_event.dart';
 export 'offers_finished_event.dart';
 export 'player_choose_offer_event.dart';
 export 'player_join_event.dart';
+export 'prepare_for_next_turn_event.dart';
 export 'select_offer_chosen_event.dart';
 export 'set_name_request.dart';
 export 'show_back_of_card_bid_event.dart';

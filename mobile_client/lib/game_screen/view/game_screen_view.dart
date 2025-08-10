@@ -54,6 +54,7 @@ class MessageBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return BlocBuilder<PlayerTurnCubit, PlayerTurnState>(
       builder: (context, state) {
         switch (state) {
@@ -61,7 +62,10 @@ class MessageBoard extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Elige que quieres subastar!'),
+                Text(
+                  'Elige que quieres subastar!',
+                  style: textTheme.headlineLarge,
+                ),
                 CountdownBar(timeout: state.timeout),
                 if (state.canFinishRound)
                   ElevatedButton(
@@ -76,7 +80,10 @@ class MessageBoard extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Haz una oferta!'),
+                Text(
+                  'Haz una oferta!',
+                  style: textTheme.headlineLarge,
+                ),
                 CountdownBar(timeout: state.timeout),
               ],
             );
@@ -84,7 +91,10 @@ class MessageBoard extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Elige una oferta!'),
+                Text(
+                  'Elige una oferta!',
+                  style: textTheme.headlineLarge,
+                ),
                 CountdownBar(timeout: state.timeout),
                 Row(
                   children: List.generate(
@@ -102,6 +112,11 @@ class MessageBoard extends StatelessWidget {
                   ),
                 ),
               ],
+            );
+          case PlayerTurnPrepareForNextTurn():
+            return Text(
+              'Se viene tu turno! Prepara tus cartas',
+              style: textTheme.headlineLarge,
             );
           default:
             return const SizedBox.shrink();

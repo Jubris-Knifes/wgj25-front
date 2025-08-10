@@ -50,3 +50,14 @@ final class GameTurnChosenOffer extends GameTurnState {
   @override
   List<Object?> get props => [playerId];
 }
+
+final class GameTurnPrepareForNextTurn extends GameTurnState {
+  const GameTurnPrepareForNextTurn({
+    required this.nextBidder,
+  });
+
+  final int nextBidder;
+
+  @override
+  List<Object?> get props => [nextBidder];
+}

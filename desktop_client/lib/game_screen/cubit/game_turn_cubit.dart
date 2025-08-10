@@ -43,6 +43,13 @@ class GameTurnCubit extends Cubit<GameTurnState> {
         await Future<void>.delayed(Duration(milliseconds: event.timeout));
         emit(const GameTurnInitial());
       }
+      if (event is PrepareForNextTurnEvent) {
+        emit(
+          GameTurnPrepareForNextTurn(
+            nextBidder: event.nextBidder,
+          ),
+        );
+      }
     });
   }
 

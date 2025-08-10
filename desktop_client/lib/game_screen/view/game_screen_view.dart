@@ -140,6 +140,11 @@ class GameMessageBoard extends StatelessWidget {
                 Text('Se eligio la oferta de ${player.name}!'),
               ],
             );
+          case GameTurnPrepareForNextTurn():
+            final player = context.read<PlayersCubit>().getPlayer(
+              state.nextBidder,
+            );
+            return Text('${player.name} preparate! Se viene tu turno');
           default:
             return const SizedBox.shrink();
         }
