@@ -28,7 +28,23 @@ class PlayerTurnCubit extends Cubit<PlayerTurnState> {
           PlayerTurnChooseOffer(timeout: event.timeout),
         );
       }
+      if (event is OffersFinishedEvent) {
+        emit(
+          PlayerTurnChooseOfferChoices(
+            timeout: event.timeout,
+            choices: event.offers.keys.toList(),
+          ),
+        );
+      }
     });
+  }
+
+  void selectOfferChoice(int choice) {
+    backendRepository.sendEvent(
+      PlayerChooseOfferEvent(
+        playerId: choice,
+      ),
+    );
   }
 
   @override

@@ -73,6 +73,29 @@ class MessageBoard extends StatelessWidget {
                 CountdownBar(timeout: state.timeout),
               ],
             );
+          case PlayerTurnChooseOfferChoices():
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Elige una oferta!'),
+                CountdownBar(timeout: state.timeout),
+                Row(
+                  children: List.generate(
+                    state.choices.length,
+                    (index) {
+                      return FilledButton(
+                        onPressed: () {
+                          context.read<PlayerTurnCubit>().selectOfferChoice(
+                            state.choices[index],
+                          );
+                        },
+                        child: Text('Oferta ${index + 1}'),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
           default:
             return const SizedBox.shrink();
         }
