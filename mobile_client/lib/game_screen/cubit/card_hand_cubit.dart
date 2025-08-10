@@ -18,16 +18,27 @@ class CardHandCubit extends Cubit<CardHandState> {
   void initialize() {
     _subscription = backendRepository.events.listen((event) async {
       if (event is CardsDealtEvent) {
+        emit(const CardHandState());
         for (final card in event.cards) {
           emit(CardHandState(cards: [...state.cards, card]));
           await Future<void>.delayed(const Duration(milliseconds: 200));
         }
       }
+      if (event is BidSelectedEvent) {
+        final cards = state.cards
+            .where((card) => card.id != event.card?.id)
+            .toList();
+        emit(CardHandState(cards: cards, selectedCard: event.card));
+      }
     });
   }
 
-  void selectCard(Art card) {
-    // TODO(juan): Implement select card
+  void selectBid(Art card) {
+    backendRepository.sendEvent(
+      BidSelectedEvent(
+        card: card,
+      ),
+    );
   }
 
   @override

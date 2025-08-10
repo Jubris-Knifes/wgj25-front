@@ -108,14 +108,26 @@ class CardsRow extends StatelessWidget {
                 children: List.generate(
                   cards.length,
                   (index) => ArtCard(
-                    onTap: () =>
-                        context.read<CardHandCubit>().selectCard(cards[index]),
+                    onTap: () {
+                      if (context.read<PlayerTurnCubit>().state
+                          is PlayerTurnChooseBid) {
+                        context.read<CardHandCubit>().selectBid(cards[index]);
+                      }
+                    },
                     art: cards[index],
                     displayFake: true,
                   ),
                 ),
               ),
             ),
+            if (state.selectedCard != null)
+              Transform.scale(
+                scale: 1.2,
+                child: ArtCard(
+                  art: state.selectedCard!,
+                  displayFake: true,
+                ),
+              ),
           ],
         );
       },
