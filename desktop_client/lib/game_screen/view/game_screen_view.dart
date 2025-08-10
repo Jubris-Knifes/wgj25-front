@@ -130,6 +130,16 @@ class GameMessageBoard extends StatelessWidget {
                 CountdownBar(timeout: state.timeout),
               ],
             );
+          case GameTurnChosenOffer():
+            final player = context.read<PlayersCubit>().getPlayer(
+              state.playerId,
+            );
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Se eligio la oferta de ${player.name}!'),
+              ],
+            );
           default:
             return const SizedBox.shrink();
         }

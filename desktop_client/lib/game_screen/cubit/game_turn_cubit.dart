@@ -17,7 +17,7 @@ class GameTurnCubit extends Cubit<GameTurnState> {
   late StreamSubscription<Event> _subscription;
 
   void initialize() {
-    _subscription = backendRepository.events.listen((event) {
+    _subscription = backendRepository.events.listen((event) async {
       if (event is ChooseBidEvent) {
         emit(
           GameTurnChooseBid(timeout: event.timeout, playerId: event.playerId),
@@ -32,6 +32,15 @@ class GameTurnCubit extends Cubit<GameTurnState> {
         );
       }
       if (event is BidSelectedEvent || event is OffersFinishedEvent) {
+        emit(const GameTurnInitial());
+      }
+      if (event is SelectOfferChosenEvent) {
+        emit(
+          GameTurnChosenOffer(
+            playerId: event.playerId,
+          ),
+        );
+        await Future<void>.delayed(Duration(milliseconds: event.timeout));
         emit(const GameTurnInitial());
       }
     });

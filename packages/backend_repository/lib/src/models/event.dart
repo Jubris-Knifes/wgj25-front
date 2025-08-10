@@ -31,6 +31,8 @@ abstract class Event {
         case EventType.offersFinished:
         case EventType.selectOfferChoices:
           return OffersFinishedEvent.fromJson(payload ?? {});
+        case EventType.selectOfferChosen:
+          return SelectOfferChosenEvent.fromJson(payload ?? {});
         default:
           return const Noise();
       }
@@ -65,6 +67,7 @@ enum EventType {
   offersFinished('offers_finished'),
   selectOfferChoices('select_offer_choices'),
   playerChooseOffer('player_choose_offer'),
+  selectOfferChosen('select_offer_chosen'),
   noise('');
 
   const EventType(this.key);
