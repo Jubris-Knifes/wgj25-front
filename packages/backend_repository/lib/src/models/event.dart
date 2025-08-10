@@ -17,6 +17,8 @@ abstract class Event {
           return CardsDealtEvent.fromJson(payload ?? {});
         case EventType.chooseBid:
           return ChooseBidEvent.fromJson(payload ?? {});
+        case EventType.bidSelected:
+          return BidSelectedEvent.fromJson(payload ?? {});
         default:
           return const Noise();
       }

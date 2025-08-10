@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:backend_repository/backend_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:desktop_client/app/app.dart';
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 
-part 'players_state.dart';
+part 'player_turn_state.dart';
 
-class PlayersCubit extends Cubit<PlayersState> {
-  PlayersCubit({
+class PlayerTurnCubit extends Cubit<PlayerTurnState> {
+  PlayerTurnCubit({
     required this.backendRepository,
-  }) : super(const PlayersState());
+  }) : super(PlayerTurnInitial());
 
   final BackendRepository backendRepository;
 
@@ -18,19 +18,12 @@ class PlayersCubit extends Cubit<PlayersState> {
 
   void initialize() {
     _subscription = backendRepository.events.listen((event) {
-      if (event is PlayerJoinEvent) {
-        final player = Player(
-          id: event.id,
-          name: event.name,
-          score: 0,
+      if (event is ChooseBidEvent) {
+        emit(
+          PlayerTurnChooseBid(timeout: event.timeout),
         );
-        emit(PlayersState(players: [...state.players, player]));
       }
     });
-  }
-
-  Player getPlayer(int playerId) {
-    return state.players.firstWhere((element) => element.id == playerId);
   }
 
   @override

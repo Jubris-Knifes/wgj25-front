@@ -1,5 +1,4 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_client/game_screen/game_screen.dart';
@@ -9,10 +8,19 @@ class GameScreenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CardHandCubit(
-        backendRepository: context.read(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CardHandCubit(
+            backendRepository: context.read(),
+          )..initialize(),
+        ),
+        BlocProvider(
+          create: (context) => PlayerTurnCubit(
+            backendRepository: context.read(),
+          )..initialize(),
+        ),
+      ],
       child: const GameScreenView(),
     );
   }
@@ -27,8 +35,7 @@ class GameScreenView extends StatelessWidget {
       body: Column(
         children: [
           Spacer(),
-          // TODO(juan): Replace with instructions
-          Expanded(child: Text('Lorem Ipsum', style: TextStyle(fontSize: 20))),
+          Expanded(child: MessageBoard()),
           Spacer(flex: 2),
           Expanded(
             flex: 4,
@@ -36,6 +43,41 @@ class GameScreenView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class MessageBoard extends StatelessWidget {
+  const MessageBoard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<PlayerTurnCubit, PlayerTurnState>(
+      builder: (context, state) {
+        switch (state) {
+          case PlayerTurnChooseBid():
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Elige que quieres subastar!'),
+                TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 1, end: 0),
+                  duration: Duration(milliseconds: state.timeout),
+                  builder: (context, value, child) {
+                    return LinearProgressIndicator(
+                      minHeight: 20,
+                      value: value,
+                    );
+                  },
+                ),
+              ],
+            );
+          default:
+            return const SizedBox.shrink();
+        }
+      },
     );
   }
 }
@@ -48,30 +90,35 @@ class CardsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    return Transform.translate(
-      offset: Offset(0, size.height * 0.1),
-      child: BlocSelector<CardHandCubit, CardHandState, List<Art>>(
-        selector: (state) {
-          return state.cards
-              .where((card) => card.id != state.selectedCard?.id)
-              .toList();
-        },
-        builder: (context, cards) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 10,
-            children: List.generate(
-              cards.length,
-              (index) => ArtCard(
-                onTap: () =>
-                    context.read<CardHandCubit>().selectCard(cards[index]),
-                art: cards[index],
-                displayFake: true,
+    return BlocBuilder<CardHandCubit, CardHandState>(
+      builder: (context, state) {
+        final cards = state.cards
+            .where(
+              (card) => card.id != state.selectedCard?.id,
+            )
+            .toList();
+
+        return Stack(
+          children: [
+            Transform.translate(
+              offset: Offset(0, size.height * 0.1),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
+                children: List.generate(
+                  cards.length,
+                  (index) => ArtCard(
+                    onTap: () =>
+                        context.read<CardHandCubit>().selectCard(cards[index]),
+                    art: cards[index],
+                    displayFake: true,
+                  ),
+                ),
               ),
             ),
-          );
-        },
-      ),
+          ],
+        );
+      },
     );
   }
 }
