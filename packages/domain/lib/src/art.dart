@@ -29,7 +29,7 @@ enum ArtType {
   painting('painting', 1),
   sculpture('sculpture', 2),
   jewlery('jewlery', 3),
-  jars('jars', 4);
+  jar('jar', 4);
 
   const ArtType(this.name, this.key);
 
