@@ -15,6 +15,8 @@ abstract class Event {
           return PlayerJoinEvent.fromJson(payload ?? {});
         case EventType.cardsDealt:
           return CardsDealtEvent.fromJson(payload ?? {});
+        case EventType.chooseBid:
+          return ChooseBidEvent.fromJson(payload ?? {});
         default:
           return const Noise();
       }
@@ -39,6 +41,8 @@ enum EventType {
   playerJoin('player_joined'),
   setNameRequest('set_name_request'),
   cardsDealt('cards_dealt'),
+  chooseBid('choose_bid'),
+  bidSelected('bid_selected'),
   noise('');
 
   const EventType(this.key);
