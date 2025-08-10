@@ -25,6 +25,7 @@ class Art {
 }
 
 enum ArtType {
+  backOfCard('back_of_card', 0),
   painting('painting', 1),
   sculpture('sculpture', 2),
   jewlery('jewlery', 3),

@@ -57,7 +57,7 @@ class GameMessageBoard extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Es hora de que ${player.name} haga su apuesta!'),
+                Text('Es hora de que ${player.name} elija una tarjeta!'),
                 TweenAnimationBuilder<double>(
                   tween: Tween<double>(begin: 1, end: 0),
                   duration: Duration(milliseconds: state.timeout),

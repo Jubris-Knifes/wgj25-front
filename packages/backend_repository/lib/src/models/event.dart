@@ -19,6 +19,8 @@ abstract class Event {
           return ChooseBidEvent.fromJson(payload ?? {});
         case EventType.bidSelected:
           return BidSelectedEvent.fromJson(payload ?? {});
+        case EventType.showBackOfCardBid:
+          return ShowBackOfCardBidEvent.fromJson(payload ?? {});
         default:
           return const Noise();
       }
@@ -45,6 +47,7 @@ enum EventType {
   cardsDealt('cards_dealt'),
   chooseBid('choose_bid'),
   bidSelected('bid_selected'),
+  showBackOfCardBid('show_back_of_card_bid'),
   noise('');
 
   const EventType(this.key);

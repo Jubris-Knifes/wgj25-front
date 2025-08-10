@@ -16,6 +16,9 @@ class ArtCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final showFake = displayFake && !art.isReal;
+    final fileName = art.type == ArtType.backOfCard
+        ? 'back_of_card'
+        : '${art.type.name}_${art.id}_${art.isReal ? 'R' : 'F'}';
     return InkWell(
       onTap: onTap,
       child: Stack(
@@ -23,7 +26,7 @@ class ArtCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.asset(
-              'assets/images/art_cards/${art.type.name}_${art.id}_${art.isReal ? 'R' : 'F'}.png',
+              'assets/images/art_cards/$fileName.png',
               package: 'app_ui',
             ),
           ),

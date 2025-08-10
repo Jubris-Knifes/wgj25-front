@@ -4,6 +4,7 @@ import 'package:domain/domain.dart';
 class BidSelectedEvent extends Event {
   const BidSelectedEvent({
     required this.card,
+    this.timeout = 0,
     this.isRoundOver = false,
   }) : super(type: EventType.bidSelected);
 
@@ -14,12 +15,15 @@ class BidSelectedEvent extends Event {
     return BidSelectedEvent(
       card: card,
       isRoundOver: json['is_round_over'] as bool,
+      timeout: (json['timeout'] as num).toInt(),
     );
   }
 
   final Art? card;
 
   final bool isRoundOver;
+
+  final int timeout;
 
   @override
   Map<String, dynamic> toJson() {
@@ -28,6 +32,7 @@ class BidSelectedEvent extends Event {
       'event_data': {
         'card': card?.toJson(),
         'is_round_over': isRoundOver,
+        'timeout': timeout,
       },
     };
   }
